@@ -58,4 +58,16 @@ func getShortUrl(number uint64) string {
 }
 
 func getUrl(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	var shortModel short
+	e := json.NewDecoder(r.Body).Decode(&shortModel)
+	if e != nil {
+		fmt.Print(e)
+	}
+	var result primitive.M //  an unordered representation of a BSON //document which is a Map
+	err := userCollection.FindOne(context.TODO(), bson.M{"url": shortModel.Url}).Decode(&result)
+	if err != nil {
+		fmt.Println(err)
+	}
+	json.NewEncoder(w).Encode(result) // returns a Map containing //mongodb document
 }
