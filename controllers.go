@@ -42,6 +42,7 @@ func createShortenedUrl(w http.ResponseWriter, r *http.Request) {
 			log.Fatal(err)
 		}
 		json.NewEncoder(w).Encode(insertResult.InsertedID) //  return resulted ID
+		return
 	}
 	json.NewEncoder(w).Encode(result) // If Url Exist return Result
 }
